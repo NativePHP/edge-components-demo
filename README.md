@@ -41,6 +41,8 @@ php artisan docs:capture-screenshots --demo-path=../edge-components-demo --platf
 php artisan docs:capture-screenshots --demo-path=../edge-components-demo --publish
 ```
 
+> `php artisan route:list` shows no native routes. That's expected: NativePHP only registers `routes/mobile.php` for `native:*` commands, tests and on-device runs, so the same app can also be deployed as a plain website.
+
 ## Adding a screen
 
 1. Add the key and title to `App\Showcase`.

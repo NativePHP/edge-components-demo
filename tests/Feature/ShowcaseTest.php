@@ -63,5 +63,29 @@ it('keeps the back chevron on every other showcase screen', function () {
 });
 
 it('links every drawer back to the showcase home', function (string $key) {
-    Native::visit(Showcase::route($key), platform: 'ios')->assertSee('All components');
+    Native::visit(Showcase::route($key), platform: 'ios')
+        ->tap('All components')
+        ->assertNavigatedTo('/');
 })->with(['side-nav', 'side-nav-header-image']);
+
+it('handles taps on the drawer rows', function () {
+    Native::visit(Showcase::route('side-nav'), platform: 'ios')
+        ->tap('Starred')
+        ->assertSet('lastTapped', 'starred');
+});
+
+it('builds the drawers from core components, which render inside a Drawer', function (string $key) {
+    // mobile-ui renders <native:side-nav-*> elements as empty views inside a
+    // layout Drawer, so the drawers must not rely on them.
+    $json = json_encode(Native::visit(Showcase::route($key), platform: 'ios')->tree());
+
+    expect($json)->not->toContain('"type":"side_nav')
+        ->and($json)->toContain('Inbox');
+})->with(['side-nav', 'side-nav-header-image']);
+
+it('gives only the header-image drawer an image banner', function () {
+    $types = fn (string $key) => json_encode(Native::visit(Showcase::route($key), platform: 'ios')->tree());
+
+    expect($types('side-nav-header-image'))->toContain('drawer-header.png')
+        ->and($types('side-nav'))->not->toContain('drawer-header.png');
+});

@@ -12,6 +12,17 @@ class BottomSheetScreen extends ShowcaseScreen
 {
     public bool $showSheet = true;
 
+    public function openSheet(): void
+    {
+        $this->showSheet = true;
+    }
+
+    /** Called by the row buttons and when the sheet is swiped away. */
+    public function closeSheet(): void
+    {
+        $this->showSheet = false;
+    }
+
     protected function key(): string
     {
         return 'bottom-sheet';

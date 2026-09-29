@@ -89,3 +89,30 @@ it('gives only the header-image drawer an image banner', function () {
     expect($types('side-nav-header-image'))->toContain('drawer-header.png')
         ->and($types('side-nav'))->not->toContain('drawer-header.png');
 });
+
+it('closes and reopens the modal', function () {
+    Native::visit(Showcase::route('modal'), platform: 'ios')
+        ->tap('Close')
+        ->assertSet('showDetails', false)
+        ->tap('View details')
+        ->assertSet('showDetails', true);
+});
+
+it('closes and reopens the bottom sheet', function () {
+    Native::visit(Showcase::route('bottom-sheet'), platform: 'ios')
+        ->tap('Share')
+        ->assertSet('showSheet', false)
+        ->tap('Show actions')
+        ->assertSet('showSheet', true);
+});
+
+it('keeps sheet and modal state in sync when the platform dismisses them', function (string $key, string $method, string $property) {
+    $tree = json_encode(Native::visit(Showcase::route($key), platform: 'ios')->tree());
+
+    // @dismiss must call a real method — inline `$prop = false` isn't evaluated.
+    expect($tree)->toContain('"on_dismiss"');
+    Native::visit(Showcase::route($key))->call($method)->assertSet($property, false);
+})->with([
+    ['modal', 'closeDetails', 'showDetails'],
+    ['bottom-sheet', 'closeSheet', 'showSheet'],
+]);

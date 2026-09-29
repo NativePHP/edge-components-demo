@@ -12,6 +12,17 @@ class ModalScreen extends ShowcaseScreen
 {
     public bool $showDetails = true;
 
+    public function openDetails(): void
+    {
+        $this->showDetails = true;
+    }
+
+    /** Called by the Close button and by the modal's own close control. */
+    public function closeDetails(): void
+    {
+        $this->showDetails = false;
+    }
+
     protected function key(): string
     {
         return 'modal';

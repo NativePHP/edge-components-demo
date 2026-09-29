@@ -116,3 +116,13 @@ it('keeps sheet and modal state in sync when the platform dismisses them', funct
     ['modal', 'closeDetails', 'showDetails'],
     ['bottom-sheet', 'closeSheet', 'showSheet'],
 ]);
+
+it('gives the bottom-nav search tab something to search', function () {
+    $screen = Native::visit(Showcase::route('bottom-nav-search-item'), platform: 'ios');
+
+    expect($screen->search('invoice')->searchResults())
+        ->toHaveCount(1)
+        ->{0}->title->toBe('Sam Okafor');
+
+    expect($screen->search('')->searchResults())->toHaveCount(6);
+});

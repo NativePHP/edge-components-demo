@@ -53,7 +53,6 @@ Route::nativeGroup(ShowcaseLayout::class, function () {
     Route::native('/edge-components/top-bar-logo', TopBarLogoScreen::class)->name('edge-components.top-bar-logo');
     Route::native('/edge-components/bottom-nav', BottomNavScreen::class)->name('edge-components.bottom-nav');
     Route::native('/edge-components/bottom-nav-search-item', BottomNavSearchItemScreen::class)->name('edge-components.bottom-nav-search-item');
-    Route::native('/edge-components/side-nav-header-image', SideNavHeaderImageScreen::class)->name('edge-components.side-nav-header-image');
     Route::native('/edge-components/tab-row', TabRowScreen::class)->name('edge-components.tab-row');
 
     // Overlays — sheets and modals start open.
@@ -79,7 +78,10 @@ Route::nativeGroup(ShowcaseLayout::class, function () {
     Route::native('/edge-components/gesture-area', GestureAreaScreen::class)->name('edge-components.gesture-area');
 });
 
-// The side drawer comes from the layout, so this screen uses DrawerLayout.
-Route::native('/edge-components/side-nav', SideNavScreen::class)
-    ->layout(DrawerLayout::class)
-    ->name('edge-components.side-nav');
+// Drawer screens use DrawerLayout: its drawer, and no back chevron under the
+// drawer's ☰ button. The header-image screen swaps in its own drawer via
+// SideNavHeaderImageScreen::drawerOverride().
+Route::nativeGroup(DrawerLayout::class, function () {
+    Route::native('/edge-components/side-nav', SideNavScreen::class)->name('edge-components.side-nav');
+    Route::native('/edge-components/side-nav-header-image', SideNavHeaderImageScreen::class)->name('edge-components.side-nav-header-image');
+});

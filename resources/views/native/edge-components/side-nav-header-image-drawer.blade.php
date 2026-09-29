@@ -11,3 +11,7 @@
 <native:divider />
 
 <native:side-nav-item id="settings" label="Settings" icon="settings" url="/edge-components/side-nav-header-image" />
+
+<native:divider />
+
+<native:side-nav-item id="showcase" label="All components" icon="dashboard" url="/" />

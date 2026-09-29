@@ -17,3 +17,7 @@
 
 <native:side-nav-item id="settings" label="Settings" icon="settings" url="/edge-components/side-nav" />
 <native:side-nav-item id="help" label="Help" icon="help" url="/edge-components/side-nav" />
+
+<native:divider />
+
+<native:side-nav-item id="showcase" label="All components" icon="dashboard" url="/" />

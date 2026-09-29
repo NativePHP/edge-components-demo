@@ -26,6 +26,11 @@ class ShowcaseLayout extends NativeLayout
     {
         return NavBar::make()
             ->title($screen->navTitle())
-            ->back(! $screen instanceof ShowcaseIndex);
+            ->back($this->showsBack($screen));
+    }
+
+    protected function showsBack(NativeComponent $screen): bool
+    {
+        return ! $screen instanceof ShowcaseIndex;
     }
 }

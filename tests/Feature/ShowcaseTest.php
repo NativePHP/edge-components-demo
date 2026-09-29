@@ -50,3 +50,18 @@ it('uses the stock theme', function () {
     // publish or add a native-ui theme config to this app.
     expect(file_exists(config_path('native-ui.php')))->toBeFalse();
 });
+
+it('drops the back chevron on drawer screens so it does not sit under the ☰ button', function (string $key) {
+    $tree = Native::visit(Showcase::route($key), platform: 'ios')->tree();
+
+    expect($tree['props']['back'])->toBeFalse()
+        ->and(json_encode($tree))->toContain('native_drawer');
+})->with(['side-nav', 'side-nav-header-image']);
+
+it('keeps the back chevron on every other showcase screen', function () {
+    expect(Native::visit(Showcase::route('list'), platform: 'ios')->tree()['props']['back'])->toBeTrue();
+});
+
+it('links every drawer back to the showcase home', function (string $key) {
+    Native::visit(Showcase::route($key), platform: 'ios')->assertSee('All components');
+})->with(['side-nav', 'side-nav-header-image']);

@@ -8,7 +8,7 @@ use Native\Mobile\UI\Builders\Drawer;
 use Native\Mobile\UI\Concerns\InteractsWithDrawer;
 
 /**
- * A per-screen drawer override: swaps the layout's drawer for one whose
+ * A per-screen drawer override: swaps DrawerLayout's drawer for one whose
  * header uses a background image.
  */
 class SideNavHeaderImageScreen extends ShowcaseScreen

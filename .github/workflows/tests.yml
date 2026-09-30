@@ -3,11 +3,8 @@ name: Tests
 on:
   push:
     branches:
-      - master
-      - '*.x'
+      - main
   pull_request:
-  schedule:
-    - cron: '0 0 * * *'
 
 permissions:
   contents: read
@@ -16,12 +13,7 @@ jobs:
   tests:
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: true
-      matrix:
-        php: [8.3, 8.4, 8.5]
-
-    name: PHP ${{ matrix.php }}
+    name: PHP 8.4
 
     steps:
       - name: Checkout code
@@ -29,10 +21,12 @@ jobs:
         with:
           persist-credentials: false
 
+      # composer.json requires PHP ^8.4 (Laravel 13 / Symfony 8), and NativePHP
+      # embeds PHP 8.4 in the app, so CI runs the same version.
       - name: Setup PHP
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
-          php-version: ${{ matrix.php }}
+          php-version: '8.4'
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
 
@@ -44,6 +38,9 @@ jobs:
 
       - name: Generate app key
         run: php artisan key:generate
+
+      - name: Check code style
+        run: vendor/bin/pint --test
 
       - name: Execute tests
         run: php artisan test
